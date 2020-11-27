@@ -5,16 +5,10 @@
 #define IN3 9
 #define IN4 11
 
-#define LED 13
+
 bool state = LOW; //The initial state of the function is defined as a low level
 char getstr;      //Defines a function that receives the Bluetooth character
 
-
-//Control LED sub function
-void stateChange() {
-  state = !state;
-  digitalWrite(LED, state);
-}
 
 /*
   Stop motor control：Turn off the motor drive
@@ -46,20 +40,24 @@ void loop() {
   {
     //The Bluetooth serial port to receive the data in the function
     getstr = Serial.read();
-    //Serial.print(getstr);
-    if (getstr == 'a') {
-      stateChange();
+    switch (getstr) {
+    	case 'f':
+  		    forward(true, 255);
+    		break;
+    	case 'b':
+    		back(true, 255);
+    		break;
+    	case 'l':
+    		left(true,200);
+    		break;
+    	case 'r':
+    		right(true,200);
+    		break;
+    	case 'X':
+    		motorstop(true);
+    }		break;
+
     }
-    if (getstr == 'f') {
-      forward(true, 255);
-    }
-    if (getstr == 'b') {
-      back(true, 255);
-    }
-    if (getstr == 'X') {
-      motorstop(true);
-    }
-  }
 }
 /*
   Control motor：Car movement forward
