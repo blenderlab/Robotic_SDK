@@ -8,16 +8,30 @@
     html{
         padding:20px;
     }
-</style></head>
+</style>
+<meta http-equiv="refresh" content="5" >
+
+</head>
 <body>
     <nav ></nav>
-    <div class="buttons">
-        <a href="/sendgo1" class="button is-primary">Send Robot1</a>
-        <a href="/sendgo2" class="button is-primary">Send Robot2</a>
-        <a href="/sendgoall" class="button is-primary">Send All Robots</a>
-      
-        <a href='http://ip.du.robot.1/go' >Go robot1 </a>
+    <div class="ips">
+        <h1> Robots </h1>
+        <ul>
+        {% for r in robots %}
+            <li>{{r.name}} ( {{r.ip}} ) 
+                    <a href="/sendgo/{{r.ip}}" class="button is-small is-primary">GO !</a>
+                    <a href="/sendstop/{{r.ip}}" class="button is-small is-danger is-primary">STOP </a>
+            </li>
+        {% endfor %}
+        </ul>
+
     </div>
+    <hr>
+    <div class="buttons">
+         
+     <a href="/sendall/f" class="button is-primary">Send GO All Robots</a>
+     <a href="/sendall/X" class="button is-danger is-primary">Send STOP All Robots</a>
+          </div>
 </body>
 
 

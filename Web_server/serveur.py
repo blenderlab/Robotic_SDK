@@ -4,30 +4,53 @@ import requests
 
 app = Flask(__name__)
 
+#list of robots IP adresses :
+
+class robot:
+	name = ""
+	ip=""
+
+robots=[]
+
 @app.route("/")
 def index():
-    return render_template("robots.html")
+	#Generate the robots web page & retrun to the client :
+    return render_template("robots.html",robots=robots)
 
-@app.route("/sendgo1")
-def sendgo1():
-    response = requests.get("http://ipdurobot1/go")
-    return("Send message 1")
 
-@app.route("/sendgo2")
-def sendgo2():
-    response = requests.get("http://ipdurobot2/go")
-    return("Send message 2")
+# the route for a bot to declare itself : 
+@app.route("/newbot/<ipadd>/<name>")
+def newbot(ipadd,name):
+	# A new bot gateway send it IP adress !
+	# store it in the list : 
+	r = robot()
+	r.name= name
+	r.ip = ipadd
+	robots.append(r)
+	return("Welcome  " + name )
 
-@app.route("/sendgoall")
+# the route to send GO (f) to a given robot (ip):
+@app.route("/sendgo/<ip>")
+def go(ip):
+		sendmessage(ip,"f")
+
+# the route to send STOP (X) to a given robot (ip):
+@app.route("/sendstop/<ip>")
+def stop(ip):
+		sendmessage(ip,"X")
+
+# the route to send a message to all robots :
+@app.route("/sendall/<message>")
 def sendall():
-    response = requests.get("http://ipdurobot1/go")
-    response = requests.get("http://ipdurobot2/go")
-    return("All robots should go !")
+	for robot in robots : 
+   		sendmessage(robot.ip,message)
 
-@app.route("/newbot/<ipadd>")
-def newbot(ipadd):
-    return("a New bot arrives : %s" % ipadd)
-    return("All robots should go !")
+
+# a function to send a message to a given IP 
+def sendmessage(ip,message):
+	url = "http://"+ip+"/"+message
+	response = requests.get(url)
+   
 
 if __name__=="__main__":
     app.run(host='0.0.0.0',debug=True)
