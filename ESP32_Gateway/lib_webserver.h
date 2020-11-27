@@ -10,7 +10,7 @@ HTTPClient http;
 WebServer server(80);
 
 
-void WIFI_init(char* ssid, char* password) {
+void WIFI_init(char* ssid, char* password, char* name) {
 
   //STarting the serial port :
   Serial.begin(115200);
@@ -34,7 +34,7 @@ void WIFI_init(char* ssid, char* password) {
   // Address of the server  + our IP :
 
   // Create the request :
-  http.begin("http://192.168.1.112:5000/newbot/" + (WiFi.localIP().toString()));
+  http.begin("http://192.168.1.112:5000/newbot/" + (WiFi.localIP().toString()) +"/"+ name);
 
   // execute the request with the GET method
   // and store the result in httpCode:

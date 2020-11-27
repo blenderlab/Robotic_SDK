@@ -4,6 +4,7 @@
 // Wifi credentials for the local network
 char* ssid = "ssid";  // Enter your SSID here
 char* password = "password";  //Enter your Password here
+char* name = "robotName" // Name of the robot (will be displayed on the webserver !)
 
 void setup() {
   BTLE_init();
